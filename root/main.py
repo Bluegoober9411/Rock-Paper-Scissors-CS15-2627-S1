@@ -1,67 +1,38 @@
-# CURRENTLY REDOING - NOT READY TO MARK
-
 import random
+import os
 
-def get_cpu_choice():
-    choices = ["rock", "paper", "scissors"]
-    return random.choice(choices)
+def clear():
+    os.system('cls' if os.name == 'nt' else 'clear')
 
-def get_player_choice():
-    valid_choices = ["rock", "paper", "scissors"]
+def main():
+    player_score = 0
+    cpu_score = 0
     while True:
-        player_choice = input("Enter rock, paper, or scissors: ").lower()
-        if player_choice in valid_choices:
-            return player_choice
+        clear()
+        options = ['rock', 'paper', 'scissors']
+        print("welcome to rock paper scissors!")
+        print(" enter 'rock', 'paper', or 'scissors'")
+        player_choice = input("your choice: ").lower()
+        clear()
+        if player_choice in options:
+            cpu_choice = random.choice(options)
+            print(f"you chose: {player_choice}")
+            print(f"cpu chose: {cpu_choice}\n")
+            if player_choice == cpu_choice:
+                print("Its a tie!")
+            elif (player_choice == 'rock' and cpu_choice == 'scissors') or \
+                     (player_choice == 'paper' and cpu_choice == 'rock') or \
+                     (player_choice == 'scissors' and cpu_choice == 'paper'):
+                print("you win!")
+                player_score += 1
+            else:
+                print("you lose!")
+                cpu_score += 1
+            print(f"\nYour score: {player_score}")
+            print(f"cpu score: {cpu_score}")
+            input()
         else:
-            print("Invalid choice. Try again.")
+            print("incorrect response")
+            input()
+main()
 
-def check_winner(cpu_choice, player_choice):
-    if player_choice == cpu_choice:
-        return "Tie"
-
-    if cpu_choice == "rock":
-        return "PLAYER" if player_choice == "paper" else "CPU"
-
-    if cpu_choice == "paper":
-        return "PLAYER" if player_choice == "scissors" else "CPU"
-
-    # cpu_choice == "scissors"
-    return "PLAYER" if player_choice == "rock" else "CPU"
-
-def play_round():
-    cpu_choice = get_cpu_choice()
-    player_choice = get_player_choice()
-    winner = check_winner(cpu_choice, player_choice)
-
-    print(f"\nCPU chose: {cpu_choice}")
-    print(f"Round winner: {winner}\n")
-
-    return winner
-
-# Tournament logic
-player_wins = 0
-cpu_wins = 0
-ties = 0
-
-print("Welcome to Rock, Paper, Scissors — First to 3 wins!")
-
-while player_wins < 3 and cpu_wins < 3:
-    result = play_round()
-
-    if result == "PLAYER":
-        player_wins += 1
-    elif result == "CPU":
-        cpu_wins += 1
-    else:
-        ties += 1
-
-    print(f"Score — Player: {player_wins}, CPU: {cpu_wins}, Ties: {ties}")
-    print("-" * 40)
-
-# Final result
-if player_wins == 3:
-    print(" You win the tournament!")
-else:
-    print(" CPU wins the tournament!")
-
-print("Thanks for playing!")
